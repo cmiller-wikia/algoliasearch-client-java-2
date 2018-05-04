@@ -1362,6 +1362,23 @@ public class APIClient {
     return task.setAPIClient(this).setIndex(indexName);
   }
 
+  public List<Cluster> listClusters() throws AlgoliaException {
+    return this.listClusters(RequestOptions.empty);
+  }
+
+  public List<Cluster> listClusters(@Nonnull RequestOptions requestOptions) throws AlgoliaException {
+    Clusters result = httpClient.requestWithRetry(
+            new AlgoliaRequest<>(
+                    HttpMethod.GET,
+                    false,
+                    Arrays.asList("1", "clusters"),
+                    requestOptions,
+                    Clusters.class)
+    );
+
+    return result.getClusters();
+  }
+
   /** Used internally for deleteByQuery */
   private static class ObjectID {
 
