@@ -1379,6 +1379,26 @@ public class APIClient {
     return result.getClusters();
   }
 
+  public UserIDs listUserIDs(Integer page, Integer hitsPerPage) throws AlgoliaException {
+    return this.listUserIDs(page, hitsPerPage, RequestOptions.empty);
+  }
+
+  public UserIDs listUserIDs(@Nonnull Integer page, @Nonnull Integer hitsPerPage, @Nonnull RequestOptions requestOptions) throws AlgoliaException {
+    return httpClient.requestWithRetry(
+            new AlgoliaRequest<>(
+                    HttpMethod.GET,
+                    false,
+                    Arrays.asList("1", "clusters", "mapping"),
+                    requestOptions,
+                    UserIDs.class)
+            .setParameters(ImmutableMap.of(
+                    "page",
+                    page.toString(),
+                    "hitsPerPage",
+                    hitsPerPage.toString()))
+    );
+  }
+
   /** Used internally for deleteByQuery */
   private static class ObjectID {
 
